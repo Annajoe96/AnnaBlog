@@ -1,0 +1,30 @@
+<h1> Anna's awesome Blog </h1>
+<%= link_to "Submit an Article", new_article_path %>
+
+
+<h3> List of Articles </h3>
+
+
+
+<% @articles.each do |i| %>
+  <br />
+
+  <%= link_to i.title, i %>
+  <%= i.created_at.strftime("%d/%m/%Y") + ":" + i.created_at.strftime("%k:%M")  %>
+
+
+
+  <br />
+<% end %>
+
+<%= paginate @articles %>
+
+
+<br />
+<br />
+
+<% if user_signed_in? %>
+  <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>
+<%else %>
+  <h2><%= link_to "Sign in", new_user_registration_path%>
+<% end %>

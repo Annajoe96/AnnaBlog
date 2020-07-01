@@ -1,0 +1,10 @@
+<h2><%= "#{@user.full_name}'s Articles" %></h2>
+
+<br />
+<br />
+
+<% @articles.each do |i| %>
+  <%= link_to i.title, i %>
+<% end %>
+
+<%= paginate @articles %>

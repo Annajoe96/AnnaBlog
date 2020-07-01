@@ -1,9 +1,10 @@
 class ArticlesController < ApplicationController
 
-  before_action :set_article, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_article, only: [:show,:edit ,:update, :destroy]
 
   def index
-    @articles = Article.all.order(created_at: :desc)
+    @articles = Article.all.order(created_at: :desc).page(params[:page])
   end
 
   def new
@@ -12,6 +13,7 @@ class ArticlesController < ApplicationController
 
   def create
     @article = Article.new(article_params)
+    @article.user_id = current_user.id
     if @article.save
       redirect_to root_path
     else
@@ -22,9 +24,14 @@ class ArticlesController < ApplicationController
 
   def show
     @comment = @article.comments.new
+    @author = @article.user
   end
 
   def edit
+    if current_user.id != @article.user_id
+      flash[:alert] = "You can't edit this article"
+      redirect_to @article
+    end
   end
 
   def update
@@ -37,9 +44,16 @@ class ArticlesController < ApplicationController
   end
 
   def destroy
-    @article.destroy
-    redirect_to root_path
+    if current_user.id == @article.user_id
+      @article.destroy
+      redirect_to root_path
+    else
+      flash[:alert] = "You can't delete this article"
+      redirect_to @article
+    end
   end
+
+
 
 
   private
@@ -49,8 +63,10 @@ class ArticlesController < ApplicationController
   end
 
   def article_params
-    params.require(:article).permit(:title, :author, :body)
+    params.require(:article).permit(:title, :body)
   end
+
+
 
 
 end

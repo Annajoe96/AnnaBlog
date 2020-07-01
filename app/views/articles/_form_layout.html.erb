@@ -1,0 +1,20 @@
+
+<%= form_with model: @article, data: {remote: false} do |f| %>
+
+  <%= f.label :title %>
+  <%= f.text_field :title, placeholder: "title here...", required: true  %>
+  <br />
+  <br />
+  <br />
+  <br />
+
+  <%= f.label :body %>
+  <br />
+  <br />
+  <%= f.text_area :body ,placeholder: "paste your article here..",required: true %>
+  <br />
+
+  <%= f.label :update %>
+  <%= f.submit %>
+
+<% end %>

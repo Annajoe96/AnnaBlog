@@ -1,0 +1,37 @@
+<h3><%= @article.title %></h3>
+
+<h4><%= link_to "by #{@author.full_name}", @author %></h4>
+<h5><%= "Word count : #{@article.word_count}" %></h5>
+<h5><%= @article.body %></h5>
+
+<% if user_signed_in? && current_user.id == @article.user_id %>
+  <h5><%= link_to "Edit Article", edit_article_path %></h5>
+  <br />
+  <br />
+  <h5><%= link_to "Delete Article", article_path(@article.id), method: :delete, data: {confirm: 'Are you sure?'} %></h5>
+<% end %>
+
+
+
+<h5> Comments </h5>
+
+<%= form_with model: [@article, @comment], data: {remote: false} do |f| %>
+  <br />
+  <%= f.text_area :comment, placeholder: "write down your comment here" %>
+  <br />
+  <%= f.label :submit %>
+  <%= f.submit %>
+<% end %>
+
+
+
+<% @article.comments.each do |i| %>
+  <% next if i.id == nil %>
+  <br />
+  <%= "#{i.find_commenter} : #{i.comment}" %>
+  <% if user_signed_in? %>
+    <% if current_user.id == @article.user_id || i.user_id == current_user.id %>
+      <%= link_to "Delete", [i.article, i], method: :delete, data: {confirm: 'Are you sure?'} %>
+    <% end %>
+  <% end %>
+<% end %>
