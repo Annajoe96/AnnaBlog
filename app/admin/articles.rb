@@ -12,6 +12,25 @@ ActiveAdmin.register Article do
     actions
   end
 
+  show do
+    attributes_table do
+      row :title
+      row :body
+      row :created_at
+      row :updated_at
+      row :user
+
+      row :word_count do |article|
+        article.word_count
+      end
+
+      row :comment_count do |article|
+        article.comments.count
+      end
+    end
+    active_admin_comments
+  end
+
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
