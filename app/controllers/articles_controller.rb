@@ -1,3 +1,4 @@
+
 class ArticlesController < ApplicationController
 
   before_action :authenticate_user!, except: [:index, :show]
@@ -23,6 +24,7 @@ class ArticlesController < ApplicationController
   end
 
   def show
+    @insight = ArticleInsightService.new(@article.body)
     @comment = @article.comments.new
     @author = @article.user
   end
