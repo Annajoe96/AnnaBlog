@@ -140,6 +140,10 @@ GEM
       activerecord
       kaminari-core (= 1.2.1)
     kaminari-core (1.2.1)
+    launchy (2.5.0)
+      addressable (~> 2.7)
+    letter_opener (1.7.0)
+      launchy (~> 2.2)
     loofah (2.6.0)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
@@ -274,6 +278,7 @@ DEPENDENCIES
   draper
   jbuilder (~> 2.7)
   kaminari
+  letter_opener
   puma (~> 4.1)
   pundit
   rails (~> 6.0.3, >= 6.0.3.2)

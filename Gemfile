@@ -59,3 +59,6 @@ gem 'activeadmin'
 gem 'cancancan'
 gem 'draper'
 gem 'pundit'
+
+
+gem "letter_opener", :group => :development

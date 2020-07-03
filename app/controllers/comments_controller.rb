@@ -7,6 +7,7 @@ class CommentsController < ApplicationController
 
     @comment = @article.comments.new(params[:comment].permit(:comment))
     @comment.user_id = current_user.id
+    authorize @comment
     if @comment.save
       redirect_to @article
     else
@@ -17,14 +18,10 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    if current_user.id == @article.user_id || @comment.user_id == current_user.id
-      @comment = @article.comments.find(params[:id])
-      @comment.destroy
-      redirect_to @article
-    else
-      flash[:alert] = "You can't delete this comment"
-      redirect_to @article
-    end
+    @comment = @article.comments.find(params[:id])
+    authorize @comment
+    @comment.destroy
+    redirect_to @article
   end
 
   private
