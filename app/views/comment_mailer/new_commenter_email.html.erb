@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p><%= @comment.user.full_name %> commented on the same article article <%= @comment.article.title %></p>
+    <p>
+    Comment Details<br>
+    --------------------------
+    </p>
+    <p>Commenter: <%= @comment.user.full_name %></p>
+    <p>Comment: <%= @comment.comment %></p>
+    <p>Created at: <%= @comment.created_at %></p>
+    <p>
+
+  </body>
+</html>

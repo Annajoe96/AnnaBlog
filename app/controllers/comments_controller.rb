@@ -9,6 +9,8 @@ class CommentsController < ApplicationController
     @comment.user_id = current_user.id
     authorize @comment
     if @comment.save
+      CommentMailer.with(comment: @comment).new_comment_email.deliver_now
+      CommentMailer.with(comment: @comment).new_commenter_email.deliver_now
       redirect_to @article
     else
       flash[:alert] = @comment.errors.full_messages.join(', ')
