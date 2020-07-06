@@ -1,4 +1,4 @@
-<h1> Anna's awesome Blog </h1>
+
 <%= link_to "Submit an Article", new_article_path %>
 
 
@@ -12,8 +12,6 @@
   <%= link_to i.title, i %>
   <%= i.created_at.strftime("%d/%m/%Y") + ":" + i.created_at.strftime("%k:%M")  %>
 
-
-
   <br />
 <% end %>
 
@@ -22,6 +20,7 @@
 
 <br />
 <br />
+
 
 <% if user_signed_in? %>
   <%= link_to "Sign out", destroy_user_session_path, :method => :delete %>

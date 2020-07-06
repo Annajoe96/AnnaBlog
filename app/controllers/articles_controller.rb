@@ -21,7 +21,7 @@ class ArticlesController < ApplicationController
 
     @article.user_id = current_user.id
     if @article.save
-      ArticleMailer.with(article: @article).new_article_email.deliver_now
+      ArticleMailer.with(article: @article).new_article_email.deliver_later
       flash[:success] = "Thank you for submitting an article. We'll get back to you soon"
       redirect_to root_path
     else
