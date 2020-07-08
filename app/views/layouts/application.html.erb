@@ -1,12 +1,17 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
   <head>
     <title>Article</title>
-    <meta charset="utf-8">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://getbootstrap.com/docs/4.0/dist/css/bootstrap.min.css">
+
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
@@ -15,40 +20,38 @@
         <%= msg %>
       </div>
     <% end %>
+
     <header>
       <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-      <a class="navbar-brand" href="#">TheBlog</a>
+      <a class="navbar-brand active">
+        <%= link_to "TheBlog", root_path %>
+      </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
+            <%= link_to "Home", root_path, class: 'nav-link' %>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/articles/new">Submit an Article</a>
+            <%= link_to "Submit an Article", new_article_path, class: 'nav-link' %>
           </li>
-          
-            <!-- <li class="nav-item">
-              <a class="nav-link" href="/users/sign_out">Sign out</a>
-            </li>
-
+          <% if user_signed_in? %>
             <li class="nav-item">
-              <a class="nav-link" href="/users/sign_up">Sign in</a>
-            </li> -->
-
-
+              <%= link_to "Sign out",destroy_user_session_path, :method => :delete , class: 'nav-link' %>
+            </li>
+          <% else %>
+            <li class="nav-item">
+              <%= link_to "Sign in", new_user_registration_path, class: 'nav-link' %>
+            </li>
+          <% end %>
         </ul>
       </div>
     </nav>
     </header>
 
 
-
-
     <%= yield %>
   </body>
-
-
 </html>

@@ -1,5 +1,5 @@
 class Article < ApplicationRecord
-  paginates_per 6
+  paginates_per 3
 
   belongs_to :user
 
@@ -10,6 +10,10 @@ class Article < ApplicationRecord
 
   def word_count
     body.split(" ").count
+  end
+
+  def review
+    para = body.split(" ")[0..40].join(" ")
   end
 
   private

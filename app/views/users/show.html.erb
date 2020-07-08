@@ -1,10 +1,24 @@
-<h2><%= "#{@user.full_name}'s Articles" %></h2>
+<div class="container mt-5">
 
-<br />
-<br />
+  <div class="jumbotron m-4 mt-2">
+    <h2><%= "#{@user.full_name}'s Articles" %></h2>
+  </div>
 
-<% @articles.each do |i| %>
-  <%= link_to i.title, i %>
-<% end %>
+  <div class="row">
+    <% @articles.each do |i| %>
+      <div class="col-md-4 p-4">
+        <h4><%=i.title %></h4>
+        <p><%= truncate(i.body,length: 210 ,omission: '... (continued)')%></p>
+        <%= link_to "Read more >>", i %>
+      </div>
+    <% end %>
+  </div>
 
-<%= paginate @articles %>
+  <div class="row">
+    <div class="col mt-3" >
+      <%= paginate @articles, theme: 'twitter-bootstrap-4'%>
+    </div>
+  </div>
+
+
+</div>
