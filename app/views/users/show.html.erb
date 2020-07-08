@@ -2,6 +2,7 @@
 
   <div class="jumbotron m-4 mt-2">
     <h2><%= "#{@user.full_name}'s Articles" %></h2>
+    <h6><%= "Published : #{@user.articles.count} articles" %></h6>
   </div>
 
   <div class="row">
@@ -13,12 +14,30 @@
       </div>
     <% end %>
   </div>
-
   <div class="row">
     <div class="col mt-3" >
-      <%= paginate @articles, theme: 'twitter-bootstrap-4'%>
+      <%= paginate @articles, param_name: "user_page", theme: 'twitter-bootstrap-4'%>
     </div>
   </div>
 
+  <div class = "row">
+    <% @comments.each do |i| %>
+      <div class="col-md-4 p-4">
+        <div class="card mb-2">
+          <div class="card-body">
+            <h5 class="card-title"><%= i.find_commenter %></h5>
+            <h6 class="card-subtitle mb-2 text-muted"><%= "#{time_ago_in_words(i.created_at)} ago" %></h6>
+            <p class="card-text"><%= i.comment %></p>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="row">
+    <div class="col mt-3" >
+      <%= paginate @comments, param_name: "comment_page", theme: 'twitter-bootstrap-4' %>
+    </div>
+  </div>
 
 </div>
