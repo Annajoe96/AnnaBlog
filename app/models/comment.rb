@@ -7,5 +7,9 @@ class Comment < ApplicationRecord
     User.find(user_id).full_name
   end
 
+  def commenter
+    User.find(user_id)
+  end
+
 
 end

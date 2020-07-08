@@ -7,7 +7,7 @@
   <div class="row">
     <% @articles.each do |i| %>
       <div class="col-md-4 p-4">
-        <h4><%=i.title %></h4>
+        <h4><%=link_to i.title, i %></h4>
         <p><%= truncate(i.body,length: 210 ,omission: '... (continued)')%></p>
         <%= link_to "Read more >>", i %>
       </div>

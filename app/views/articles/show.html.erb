@@ -1,4 +1,4 @@
-<div class="container mt-5">
+<div class="container ">
 
   <div class="jumbotron m-4 mt-2">
     <h1><%= @article.title %></h1>
@@ -21,31 +21,48 @@
     <div>
   </div>
 
-  <div class="row p-5" >
-    <div class="col">
+  <div class="row mt-4 ">
+    <div class="col-sm-8">
       <h5> Comments </h5>
+
       <% @article.comments.each do |i| %>
         <% next if i.id == nil %>
-        <br />
-        <%= "#{i.find_commenter} : #{i.comment}" %>
-        <% if can_delete_comment?(i) %>
-          <%= link_to "Delete", [i.article, i], method: :delete, data: {confirm: 'Are you sure?'} %>
-        <% end %>
+        <div class="card mb-2">
+          <div class="card-body">
+            <h5 class="card-title"><%= link_to i.find_commenter,i.commenter  %></h5>
+            <h6 class="card-subtitle mb-2 text-muted"><%= "#{time_ago_in_words(i.created_at)} ago" %></h6>
+            <p class="card-text"><%= i.comment %></p>
+              <% if can_delete_comment?(i) %>
+                <%= link_to "Delete", [i.article, i], method: :delete, data: {confirm: 'Are you sure?'} %>
+              <% end %>
+          </div>
+        </div>
       <% end %>
     </div>
   </div>
 
 
-  <div class="row p-5" >
-    <div class="col">
-      <%= form_with model: [@article, @comment], data: {remote: false} do |f| %>
-        <br />
-        <%= f.text_area :comment, placeholder: "write down your comment here" %>
-        <br />
-        <%= f.label :submit %>
-        <%= f.submit %>
-      <% end %>
-    </div>
-  </div>
+
+
+  <% if user_signed_in? %>
+    <%= form_with model: [@article, @comment], data: {remote: false} do |f| %>
+      <div class="row" >
+        <div class="col-sm-8 mt-3">
+          <div class="form-group ">
+            <%= f.text_area :comment, placeholder: "comment here",required: true, class: "form-control" %>
+          </div>
+          <div>
+            <%= f.submit class: "btn btn-success" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    Please
+    <%= link_to "sign in", user_session_path %> or
+    <%= link_to "register", new_user_registration_path %>
+    to comment
+  <%end%>
+
 
 </div>
