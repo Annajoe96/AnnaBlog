@@ -1,0 +1,205 @@
+require 'rails_helper'
+
+RSpec.describe ArticlesController do
+
+  #Factories
+  let(:user) { create(:user) }
+  let(:article) { create(:article) }
+
+  #Methods
+  def get_index
+    get :index
+  end
+
+  def get_new
+    get :new
+  end
+
+  def post_create
+    post :create, params: {user_id: user, article: attributes_for(:article)}
+  end
+
+  def get_show
+    get :show, params: {id: article}
+  end
+
+  def get_edit
+    get :edit, params: {id: article}
+  end
+
+  def put_update
+    put :update, params: {id: article, article: attributes_for(:article, title: "Anna")}
+  end
+
+  def delete_destroy
+    delete :destroy, params: {id: article}
+  end
+
+  #tests
+  describe "GET index" do
+    it "shows all articles" do
+      expect(get_index).to render_template(:index)
+    end
+  end
+
+  describe "GET new" do
+    context "signed in user" do
+      it "should render new" do
+        sign_in user
+        expect(get_new).to render_template(:new)
+      end
+    end
+    context "signed out user" do
+      it "should not render it" do
+        expect(get_new).to redirect_to new_user_session_path
+      end
+    end
+  end
+
+  describe "POST create" do
+    context "signed in user" do
+      before(:example) do
+        sign_in user
+      end
+      context "with valid attributes" do
+        it "should create a new article" do
+          expect{
+            post_create
+          }.to change(Article, :count).by(1)
+        end
+        it "should redirect to root path" do
+          expect(post_create).to redirect_to root_path
+        end
+      end
+
+      context "with invalid attributes" do
+        it "should not create a article" do
+          expect(post :create, params: {user_id: user, article: attributes_for(:article, title: nil)}).to render_template(:new)
+        end
+        it "should not create a new article" do
+          expect{
+            post :create, params: {user_id: user, article: attributes_for(:article, title: nil)}
+          }.to change(Article, :count).by(0)
+        end
+      end
+    end
+    context "signed out user" do
+      it "should redirect to user sign up " do
+        expect(post_create).to redirect_to new_user_session_path
+      end
+      it "should not create article" do
+        expect{
+          post_create
+        }.to change(Article, :count).by(0)
+      end
+    end
+  end
+
+  describe "GET show" do
+    context "user signed in" do
+      it "shows the article" do
+        sign_in user
+        expect(get_show).to render_template(:show)
+      end
+    end
+    context "user signed out" do
+      it "shows the article" do
+        expect(get_show).to render_template(:show)
+      end
+    end
+  end
+
+  describe "GET edit" do
+    context "user signed in" do
+      context "is article author" do
+        it "shows edit page" do
+          sign_in user
+          new_article = create(:article, user_id: user.id)
+          expect(get :edit, params: {id: new_article}).to render_template(:edit)
+        end
+      end
+      context "not author" do
+        it "does not show edit page" do
+          sign_in user
+          expect(get_edit).not_to render_template(:edit)
+        end
+      end
+    end
+    context "user signed out" do
+      it "redirects to login page" do
+        expect(get_edit).to redirect_to new_user_session_path
+      end
+    end
+  end
+
+  describe "PUT update" do
+    context "user signed in" do
+      before(:example) do
+        sign_in user
+      end
+      context "is article author" do
+        context "valid attributes" do
+          it "redirects to the root page" do
+            new_article = create(:article, user_id: user.id)
+            expect(put :update, params: {id: new_article, article: attributes_for(:article, title: "Anna")}).to redirect_to root_path
+          end
+          it "should update article" do
+            new_article = create(:article, user_id: user.id)
+            put :update, params: {id: new_article, article: attributes_for(:article, title: "Anna")}
+            expect(Article.find(new_article.id).title).to eq("Anna")
+          end
+        end
+        context "invalid attributes" do
+          it "renders to edit page" do
+            new_article = create(:article, user_id: user.id)
+            expect(put :update, params: {id: new_article, article: attributes_for(:article, title: nil)}).to render_template(:edit)
+          end
+        end
+      end
+      context "is not article author" do
+        it "does not update" do
+          put_update
+          expect(Article.find(article.id).title).not_to eq("Anna")
+        end
+      end
+    end
+    context "user not signed in" do
+      it "redirects to login page" do
+        expect(put_update).to redirect_to new_user_session_path
+      end
+    end
+  end
+
+  describe "DELETE destroy" do
+    context "user signed in" do
+      before(:example) do
+        sign_in user
+      end
+      context "if user is author" do
+        it "should delete the article" do
+          new_article = create(:article, user_id: user.id)
+          expect{
+            delete :destroy, params: {id: new_article}
+          }.to change(Article, :count).by(-1)
+        end
+        it "should go to root path" do
+          new_article = create(:article, user_id: user.id)
+          expect(delete :destroy, params: {id: new_article}).to redirect_to root_path
+        end
+      end
+      context "if user is not author" do
+        it "should not delete" do
+          new_article = create(:article)
+          expect{
+            delete_destroy
+          }.to change(Article, :count).by(0)
+        end
+      end
+    end
+    context "not signed in" do
+      it "redirects to login page" do
+        expect(delete_destroy).to redirect_to new_user_session_path
+      end
+    end
+  end
+end
