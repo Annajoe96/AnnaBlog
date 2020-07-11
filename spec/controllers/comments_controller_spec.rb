@@ -85,8 +85,9 @@ RSpec.describe CommentsController do
     end
     context "signed_out user" do
       it "it should not delete" do
+        new_comment = create(:comment)
         expect{
-          delete_destroy
+          delete :destroy, params: {article_id: new_comment.article.id, id: new_comment.id}
         }.to change(Comment, :count).by(0)
       end
     end

@@ -31,9 +31,7 @@ RSpec.describe ArticlesController do
     put :update, params: {id: article, article: attributes_for(:article, title: "Anna")}
   end
 
-  def delete_destroy
-    delete :destroy, params: {id: article}
-  end
+
 
   #tests
   describe "GET index" do
@@ -191,14 +189,14 @@ RSpec.describe ArticlesController do
         it "should not delete" do
           new_article = create(:article)
           expect{
-            delete_destroy
+            delete :destroy, params: {id: new_article}
           }.to change(Article, :count).by(0)
         end
       end
     end
     context "not signed in" do
       it "redirects to login page" do
-        expect(delete_destroy).to redirect_to new_user_session_path
+        expect(delete :destroy, params: {id: article}).to redirect_to new_user_session_path
       end
     end
   end

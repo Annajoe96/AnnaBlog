@@ -12,8 +12,6 @@ class Article < ApplicationRecord
     body.split(" ").count
   end
 
-  private
-
   def word_count_validate
     if body != nil
       if word_count <= 10

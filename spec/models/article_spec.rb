@@ -31,4 +31,10 @@ RSpec.describe Article, :type => :model do
     expect(subject).to be_valid
   end
 
+  it "word count check for 2 words" do
+    subject.body = "anna joe"
+    expect(subject.word_count).equal?(2)
+  end
+
+
 end

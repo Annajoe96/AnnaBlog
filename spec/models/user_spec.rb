@@ -37,4 +37,8 @@ RSpec.describe User, :type => :model do
     expect(subject).to_not be_valid
   end
 
+  it "full name joins first name and last name" do
+    expect(subject.full_name).equal?("sarah jessica")
+  end
+
 end

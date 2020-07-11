@@ -25,7 +25,7 @@
       <div class="col-md-4 p-4">
         <div class="card mb-2">
           <div class="card-body">
-            <h5 class="card-title"><%= i.find_commenter %></h5>
+            <h5 class="card-title"><%= i.user.full_name %></h5>
             <h6 class="card-subtitle mb-2 text-muted"><%= "#{time_ago_in_words(i.created_at)} ago" %></h6>
             <p class="card-text"><%= i.comment %></p>
           </div>
