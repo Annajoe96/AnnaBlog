@@ -7,6 +7,7 @@ class Article < ApplicationRecord
   validate :word_count_validate
 
   has_many :comments, dependent: :destroy
+  has_many :likes, dependent: :destroy
 
   def word_count
     body.split(" ").count

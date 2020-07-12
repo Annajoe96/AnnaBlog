@@ -36,6 +36,13 @@ class ArticlesController < ApplicationController
 
     @insight = ArticleInsightService.new(@article.body)
     @comment = @article.comments.new
+
+    if user_signed_in?
+      @like = @article.likes.where(user_id: current_user.id)&.first
+    end
+
+    @like ||= @article.likes.new
+
     @author = @article.user
   end
 

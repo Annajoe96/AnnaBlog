@@ -4,7 +4,24 @@
     <h1><%= @article.title %></h1>
     <h4><%= link_to "by #{@author.full_name}", @author %></h4>
     <h5><%= "Reading Time :#{@insight.reading_time}" %></h5>
+
   </div>
+
+
+  <div class= "row m-4 mt-2">
+    <div class = "column mr-2">
+      <h6><%= "Likes: #{@article.likes.count}" %></h6>
+
+      <% if @like.persisted? %>
+        <%= link_to "Unlike", article_like_path(@like.article, @like), method: :delete, class:"btn btn-block btn-primary" %>
+      <% else %>
+        <%= form_with model: [@article, @like], data: {remote: false} do |f| %>
+          <%= f.submit "Like", class: "btn btn-block btn-primary" %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+
 
   <div class="row p-5" >
     <div class="col">
