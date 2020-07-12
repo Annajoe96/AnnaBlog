@@ -40,4 +40,23 @@
     </div>
   </div>
 
+  <div class = "row">
+    <% @likes.each do |i| %>
+      <div class="col-md-4 p-4">
+        <div class="card mb-2">
+          <div class="card-body">
+            <h5 class="card-title"><%= i.user.full_name %></h5>
+            <p>Liked <%= link_to(i.article.title, i.article) %>
+            <h6 class="card-subtitle mb-2 text-muted"><%= "#{time_ago_in_words(i.created_at)}ago" %></h6>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+  <div class="row">
+    <div class="col mt-3" >
+      <%= paginate @likes, param_name: "like_page", theme: 'twitter-bootstrap-4' %>
+    </div>
+  </div>
+
 </div>
