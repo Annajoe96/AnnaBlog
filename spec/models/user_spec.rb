@@ -1,44 +1,24 @@
 require 'rails_helper'
 
 RSpec.describe User, :type => :model do
-  subject {
-    described_class.new(email:"abcdefgh@gmail.com", firstname: "sarah" , lastname: "jessica")
-  }
-
-  it "is not valid without all attributes" do
-    subject.email = nil
-    subject.firstname = nil
-    subject.lastname = nil
-    expect(subject).to_not be_valid
+  it 'has a valid Factory' do
+    build(:user).should be_valid
   end
 
-  it "is not valid without password" do
-    subject.password = nil
-    expect(subject).to_not be_valid
+  describe 'validations' do
+    it { should validate_presence_of(:password) }
+    it { should validate_presence_of(:firstname) }
+    it { should validate_presence_of(:lastname) }
+    it { should validate_presence_of(:email) }
+
+    it { should validate_uniqueness_of(:email).case_insensitive }
   end
 
-  it "is not valid without first name" do
-    subject.firstname = nil
-    expect(subject).to_not be_valid
-  end
-
-  it "is not without last name" do
-    subject.lastname = nil
-    expect(subject).to_not be_valid
-  end
-
-  it "is not valid without email" do
-    subject.email = nil
-    expect(subject).to_not be_valid
-  end
-
-  it "is not non-unique email id" do
-    subject.email = "danielpaul@gmail.com"
-    expect(subject).to_not be_valid
-  end
-
-  it "full name joins first name and last name" do
-    expect(subject.full_name).equal?("sarah jessica")
+  describe 'validations' do
+    it "full name joins first name and last name" do
+      user = create(:user, firstname: "sarah", lastname: "jessica")
+      expect(user.full_name).equal?("sarah jessica")
+    end
   end
 
 end
