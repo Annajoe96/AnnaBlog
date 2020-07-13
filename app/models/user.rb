@@ -9,6 +9,9 @@ class User < ApplicationRecord
   has_many :comments
   has_many :likes
 
+  has_many :user_publications
+  has_many :publications, through: :user_publications
+
 
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable
 

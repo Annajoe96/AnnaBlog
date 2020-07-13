@@ -12,6 +12,12 @@ RSpec.describe Article, :type => :model do
     it { expect validate_length_of(:body).is_at_least(10) }
   end
 
+  describe 'associations' do
+    it { should belong_to(:user) }
+    it { should have_many(:comments) }
+    it { should have_many(:likes) }
+  end
+
   describe 'check word count' do
     it "word_count" do
       article = create(:article, body: "hello my name is anna joe I like clothes and chocolates twelve thireteen fourteen")
