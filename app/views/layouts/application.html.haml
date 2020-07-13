@@ -23,6 +23,8 @@
           %ul.navbar-nav.mr-auto
             %li.nav-item.active
               = link_to "Home", root_path, class: 'nav-link'
+            %li.nav-item.active
+              = link_to "Create a publication", new_publication_path, class: 'nav-link'
             %li.nav-item
               = link_to "Submit an Article", new_article_path, class: 'nav-link'
             - if user_signed_in?

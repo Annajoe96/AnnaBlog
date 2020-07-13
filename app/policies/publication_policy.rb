@@ -1,4 +1,5 @@
 class PublicationPolicy < ApplicationPolicy
+
   def new?
     true
   end
@@ -11,7 +12,18 @@ class PublicationPolicy < ApplicationPolicy
     true
   end
 
-  def destroy?
-    @user.id == @record.user_id || @user.id == @record.article.user_id
+  def edit?
+    update?
   end
+
+  def update?
+    @record.user_publications.where(user_id: @user.id).any?
+  end
+
+  def destroy?
+    update?
+  end
+
+
+
 end
