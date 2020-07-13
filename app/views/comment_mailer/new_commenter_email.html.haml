@@ -1,0 +1,19 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+  %body
+    %p
+      = @comment.user.full_name
+      commented on the same article article #{@comment.article.title}
+    %p
+      Comment Details
+      %br/
+      \--------------------------
+    %p
+      Commenter: #{@comment.user.full_name}
+    %p
+      Comment: #{@comment.comment}
+    %p
+      Created at: #{@comment.created_at}
+    %p

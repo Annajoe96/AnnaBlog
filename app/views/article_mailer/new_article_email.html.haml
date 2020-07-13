@@ -1,0 +1,22 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+  %body
+    %p
+      You submitted an article to Anna's Awesome Blog #{@article.title}!
+    %p
+      Article Details
+      %br/
+      \--------------------------
+    %p
+      Name: #{@article.title}
+    %p
+      Email: #{@article.user.email}
+    %p
+      Created at: #{@article.created_at}
+    %p
+      Message:
+      %br/
+      \----------
+    %p= @article.body
