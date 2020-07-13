@@ -1,0 +1,12 @@
+= form_with model: @article, data: {remote: false} do |f|
+  .container.p-5
+    .row
+      .col-md-6.offset-md-3
+        .form-group
+          = f.label :title
+          = f.text_field :title, placeholder: "title here...", required: true, class: "form-control"
+        .form-group
+          = f.label :body
+          = f.text_area :body ,placeholder: "paste your article here..",required: true, class: "form-control"
+        %div
+          = f.submit class: "btn btn-success"

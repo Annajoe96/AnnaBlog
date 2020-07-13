@@ -70,3 +70,4 @@ gem 'pundit'
 gem "letter_opener", :group => :development
 gem 'faker'
 gem 'rails-controller-testing'
+gem "haml-rails", "~> 2.0"

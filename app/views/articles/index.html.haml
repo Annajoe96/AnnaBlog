@@ -1,0 +1,15 @@
+.container.p-5
+  .row
+    .col.jumbotron.mt-5
+      %h1 The Blog
+      %p Read interesting articles and signup to submit some interesting articles.
+      = link_to "Submit an Article", new_article_path, class:'btn btn-outline-primary'
+  .row
+    - @articles.each do |i|
+      .col-md-4.p-3
+        %h4= link_to i.title, i
+        %p= truncate(i.body,length: 210 ,omission: '... (continued)')
+        = link_to "Read more >>", i
+  .row
+    .col.mt-5
+      = paginate @articles, theme: 'twitter-bootstrap-4'
