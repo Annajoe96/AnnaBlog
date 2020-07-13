@@ -5,14 +5,15 @@ RSpec.describe UserPublication, type: :model do
     create(:user_publication).should be_valid
   end
 
-  describe 'validations' do
-    it { expect validate_presence_of(:user) }
-    it { expect validate_presence_of(:publication) }
-  end
-
   describe 'associations' do
     it { should belong_to(:user) }
     it { should belong_to(:publication) }
   end
 
+  describe 'validations' do
+    it { expect validate_presence_of(:user) }
+    it { expect validate_presence_of(:publication) }
+  end
+
+  
 end
