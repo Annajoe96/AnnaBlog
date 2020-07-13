@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Like, type: :model do
 
   it 'has a valid Factory' do
-    build(:like).expect be_valid
+    create(:like).should be_valid
   end
 
   describe 'validations' do
