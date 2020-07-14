@@ -6,8 +6,7 @@
     - @publications.each do |publication|
       .row.m-3
         #{link_to publication.title, publication}
-        #{link_to 'Edit', edit_publication_path(publication),  class:"btn btn-dark ml-2"}
-        #{link_to 'Destroy', publication, method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-dark ml-2"}
+        
 
 
     .row.m-3
