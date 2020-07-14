@@ -9,7 +9,6 @@ class PublicationsController < ApplicationController
   end
 
   # GET /publications/1
-  # GET /publications/1.json
   def show
   end
 
