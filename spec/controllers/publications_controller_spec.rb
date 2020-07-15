@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe PublicationsController do
-  #Factories
+  #----- FACTORIES -----#
   let(:publication) { create(:publication) }
   let(:user) { create(:user) }
-  #Methods
+  #----- METHODS -----#
   def get_index
     get :index
   end
@@ -29,13 +29,13 @@ RSpec.describe PublicationsController do
     put :update, params: {id: publication, publication: attributes_for(:article, title: "Anna")}
   end
 
-  def permission_granted
+  def make_publication_with_member
     @new_publication = create(:publication)
     @new_user_publication = create(:user_publication, user_id: user.id, publication_id: @new_publication.id)
   end
 
 
-  #tests
+  #----- TESTS-----#
   describe "GET index" do
     it "shows all publications" do
       expect(get_index).to render_template(:index)
@@ -121,7 +121,7 @@ RSpec.describe PublicationsController do
       context "is part of permission group" do
         it "shows edit page" do
           sign_in user
-          permission_granted
+          make_publication_with_member
           expect(get :edit, params: {id: @new_publication}).to render_template(:edit)
         end
       end
@@ -147,18 +147,18 @@ RSpec.describe PublicationsController do
       context "user is in permission list" do
         context "valid attributes" do
           it "redirects to publication page" do
-            permission_granted
+            make_publication_with_member
             expect(put :update, params: {id: @new_publication, publication: attributes_for(:publication, title: "Anna")}).to redirect_to publication_path(Publication.last)
           end
           it "should update publication" do
-            permission_granted
+            make_publication_with_member
             put :update, params: {id: @new_publication, publication: attributes_for(:publication, title: "Anna")}
             expect(Publication.find(@new_publication.id).title).to eq("Anna")
           end
         end
         context "invalid attributes" do
           it "renders to edit page" do
-            permission_granted
+            make_publication_with_member
             expect(put :update, params: {id: @new_publication, publication: attributes_for(:publication, title: nil)}).to render_template(:edit)
           end
         end
@@ -184,13 +184,13 @@ RSpec.describe PublicationsController do
       end
       context "user is in permission list" do
         it "should delete the publication" do
-          permission_granted
+          make_publication_with_member
           expect{
             delete :destroy, params: {id: @new_publication}
           }.to change(Publication, :count).by(-1)
         end
         it "should go to index" do
-          permission_granted
+          make_publication_with_member
           expect(delete :destroy, params: {id: @new_publication}).to redirect_to publications_url
         end
       end

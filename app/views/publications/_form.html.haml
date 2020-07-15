@@ -4,11 +4,16 @@
   = form_with model: @publication, data: {remote: false} do |f|
     .row
       .col-md-6.offset-md-3
+        -if !@publication.errors.full_messages.empty?
+          .alert.alert-danger{:role => "alert"}
+            = @publication.errors.full_messages.join(" ")
+    .row
+      .col-md-6.offset-md-3
         .form-group
           = f.label :title
-          = f.text_field :title, placeholder: "title here...", required: true, class: "form-control"
+          = f.text_field :title, placeholder: "title here...", required: false, class: "form-control"
         .form-group
           = f.label :description
-          = f.text_area :description ,placeholder: "give description here", required: true, class: "form-control"
+          = f.text_area :description ,placeholder: "give description here", required: false, class: "form-control"
         %div
           = f.submit "Create", class: "btn btn-success"

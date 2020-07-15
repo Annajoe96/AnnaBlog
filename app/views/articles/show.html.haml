@@ -16,7 +16,7 @@
       = @article.body
   .row.p-5
     .col
-      - if can_edit?(@article)
+      -if policy(@article).edit?
         = link_to "Edit Article", edit_article_path, class:"btn btn-dark"
         = link_to "Delete Article", article_path(@article.id), method: :delete, data: {confirm: 'Are you sure?'}, class:"btn btn-dark"
       %div
