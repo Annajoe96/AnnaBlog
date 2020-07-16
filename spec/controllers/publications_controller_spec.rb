@@ -1,9 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe PublicationsController do
+
   #----- FACTORIES -----#
   let(:publication) { create(:publication) }
   let(:user) { create(:user) }
+
+
   #----- METHODS -----#
   def get_index
     get :index
@@ -196,6 +199,7 @@ RSpec.describe PublicationsController do
       end
       context "if user is not in permission list" do
         it "should not delete" do
+          publication
           expect{
             delete :destroy, params: {id: publication}
           }.to change(Publication, :count).by(0)
@@ -208,7 +212,4 @@ RSpec.describe PublicationsController do
       end
     end
   end
-
-
-
 end

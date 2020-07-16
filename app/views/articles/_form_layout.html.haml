@@ -2,7 +2,7 @@
 = form_with model: @article, data: {remote: false} do |f|
   .row
     .col-md-6.offset-md-3
-    
+
       - if @article.errors.full_messages.any?
         .alert.alert-danger{:role => "alert"}
           %ul
@@ -10,11 +10,17 @@
               %li= e
 
     .col-md-6.offset-md-3
+
+
       .form-group
         = f.label :title
         = f.text_field :title, placeholder: "title here...", required: false, class: "form-control"
       .form-group
         = f.label :body
         = f.text_area :body ,placeholder: "paste your article here..",required: false, class: "form-control"
+      .form-group
+        = f.label :publication_id
+        = f.collection_select :publication_id, current_user.publications, :id, :title, {:include_blank => true}
+
       %div
         = f.submit class: "btn btn-success"

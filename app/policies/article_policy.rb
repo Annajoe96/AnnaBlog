@@ -9,11 +9,19 @@ class ArticlePolicy < ApplicationPolicy
   end
 
   def create?
-    true
+    if @record.publication_id
+      @record.publication.user_publications.where(user_id: @user.id).any?
+    else
+      @record.user_id == @user.id
+    end
   end
 
   def edit?
-    @user.id == @record.user_id
+    if @record.publication_id
+      @record.publication.user_publications.where(user_id: @user.id).any? && @record.user_id == @user.id
+    else
+      @user.id == @record.user_id
+    end
   end
 
   def update?

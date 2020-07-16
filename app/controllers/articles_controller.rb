@@ -17,13 +17,14 @@ class ArticlesController < ApplicationController
 
   def create
     @article = Article.new(article_params)
+    @article.user_id = current_user.id
+
     authorize @article
 
-    @article.user_id = current_user.id
     if @article.save
       ArticleMailer.with(article: @article).new_article_email.deliver_later
       flash[:success] = "Thank you for submitting an article. We'll get back to you soon"
-      redirect_to root_path
+      redirect_to @article
     else
       flash.now[:alert] = @article.errors.full_messages.join(', ')
       render :new
@@ -53,7 +54,7 @@ class ArticlesController < ApplicationController
     authorize @article
 
     if @article.update(article_params)
-      redirect_to root_path
+      redirect_to @article
     else
       flash.now[:alert] =  @article.errors.full_messages.join(',')
       render :edit
@@ -74,10 +75,7 @@ class ArticlesController < ApplicationController
   end
 
   def article_params
-    params.require(:article).permit(:title, :body)
+    params.require(:article).permit(:title, :body, :publication_id)
   end
-
-
-
 
 end
