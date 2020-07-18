@@ -1,0 +1,15 @@
+.container
+  .jumbotron.m-4.mt-2
+    %h3 Members of #{@publication.title}
+
+
+  - @publication.user_publications.each do |record|
+    .row.m-3.ml-5
+      -next if record.user == nil
+      #{link_to record.user.full_name,record.user}
+
+
+
+= render 'form'
+
+-# = link_to 'Back', user_publications_path
