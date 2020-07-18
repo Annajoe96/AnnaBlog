@@ -5,16 +5,19 @@ class UserPublicationsController < ApplicationController
   # GET /user_publications
   def index
     @user_publications = UserPublication.all
+    authorize @publication, :edit?
   end
 
   # GET /user_publications/new
   def new
     @user_publication = @publication.user_publications.new
+    authorize @user_publication
   end
 
   # POST /user_publications
   def create
     @user_publication = @publication.user_publications.new(user_publication_params)
+    authorize @user_publication
     if @user_publication.save
       redirect_to new_publication_user_publication_path(@publication)
     else
@@ -25,7 +28,9 @@ class UserPublicationsController < ApplicationController
 
   # DELETE /user_publications/1
   def destroy
+    authorize @user_publication
     @user_publication.destroy
+    redirect_to publication_user_publications_path(@publication)
   end
 
   # private
