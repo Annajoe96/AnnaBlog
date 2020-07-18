@@ -9,7 +9,9 @@ Rails.application.routes.draw do
     resources :likes, only: [:create, :destroy]
   end
 
-  resources :publications
+  resources :publications do
+    resources :user_publications, only: [:new , :create, :index, :destroy]
+  end
 
   resources :users, only: [:show]
 

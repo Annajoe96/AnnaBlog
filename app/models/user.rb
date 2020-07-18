@@ -4,7 +4,7 @@ class User < ApplicationRecord
   validates :email, uniqueness: true
   validates :firstname, presence: true
   validates :lastname, presence: true
-
+  
   has_many :articles
   has_many :comments
   has_many :likes
