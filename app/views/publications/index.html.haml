@@ -1,0 +1,13 @@
+.container
+  .jumbotron.m-4.mt-2
+    %h1 List of publications
+
+  .col
+    - @publications.each do |publication|
+      .row.m-3
+        #{link_to publication.title, publication}
+        
+
+
+    .row.m-3
+      =link_to 'Create a new Publication', new_publication_path, class:'btn btn-outline-primary'

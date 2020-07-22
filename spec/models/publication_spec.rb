@@ -13,6 +13,7 @@ RSpec.describe Publication, type: :model do
 
   describe 'validations' do
     it { expect validate_presence_of(:title) }
+    it { expect validate_presence_of(:description) }
   end
 
 

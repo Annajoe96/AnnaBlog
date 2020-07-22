@@ -28,7 +28,6 @@ class ArticlesController < ApplicationController
       flash.now[:alert] = @article.errors.full_messages.join(', ')
       render :new
     end
-
   end
 
   def show
