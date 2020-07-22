@@ -5,7 +5,7 @@
     - if policy(@publication).edit?
       =link_to 'Edit', edit_publication_path(@publication),  class:"btn btn-dark ml-2 mt-4"
       =link_to 'Destroy', publication_path(@publication.id), method: :delete, data: { confirm: 'Are you sure?' }, class:"btn btn-dark ml-2 mt-4"
-
+      =link_to 'Publication Members',publication_user_publications_path(@publication.id), class:"btn btn-secondary ml-2 mt-4"
   .row
     - @publication.articles.each do |i|
       .col-md-4.p-4
@@ -13,5 +13,3 @@
         %p= truncate(i.body,length: 210 ,omission: '... (continued)')
         = link_to "Read more >>", i
   .row
-
-  

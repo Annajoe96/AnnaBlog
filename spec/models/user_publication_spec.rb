@@ -2,7 +2,8 @@ require 'rails_helper'
 
 RSpec.describe UserPublication, type: :model do
   it 'has a valid Factory' do
-    create(:user_publication).should be_valid
+    user = create(:user)
+    create(:user_publication, email: user.email).should be_valid
   end
 
   describe 'associations' do
@@ -15,5 +16,5 @@ RSpec.describe UserPublication, type: :model do
     it { expect validate_presence_of(:publication) }
   end
 
-  
+
 end

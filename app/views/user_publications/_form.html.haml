@@ -1,0 +1,8 @@
+.container
+  = form_with model: [@publication, @user_publication], data: {remote: false} do |f|
+    .row.m-3.ml-4
+      .form-group
+        = f.label :email
+        = f.email_field :email, placeholder: "email here...", required: false, class: "form-control"
+        = f.submit "Add Member", class: "btn btn-success mt-3 "
+      %div

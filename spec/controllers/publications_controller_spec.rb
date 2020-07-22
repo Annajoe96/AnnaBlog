@@ -34,7 +34,7 @@ RSpec.describe PublicationsController do
 
   def make_publication_with_member
     @new_publication = create(:publication)
-    @new_user_publication = create(:user_publication, user_id: user.id, publication_id: @new_publication.id)
+    @new_user_publication = create(:user_publication, email: user.email, publication_id: @new_publication.id)
   end
 
 
