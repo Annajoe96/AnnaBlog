@@ -17,7 +17,9 @@ class PublicationPolicy < ApplicationPolicy
   end
 
   def update?
-    @record.user_publications.where(user_id: @user.id).any?
+    if @user != nil
+      @record.user_publications.where(user_id: @user.id).any?
+    end
   end
 
   def destroy?

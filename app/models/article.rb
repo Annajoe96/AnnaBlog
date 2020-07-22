@@ -8,6 +8,7 @@ class Article < ApplicationRecord
 
   has_many :comments, dependent: :destroy
   has_many :likes, dependent: :destroy
+  belongs_to :publication, optional: true
 
   def word_count
     body.split(" ").count
@@ -15,8 +16,9 @@ class Article < ApplicationRecord
 
   def word_count_validate
     if body != nil
-      if word_count <= 10
-        errors.add(:body, "your article is too short you need to add #{10-word_count} more words")
+      if word_count < 10
+        remaining = 10 - word_count
+        errors.add(:body, "is too short. You need to add #{ActionController::Base.helpers.pluralize(remaining, 'word')}.")
       end
     end
   end

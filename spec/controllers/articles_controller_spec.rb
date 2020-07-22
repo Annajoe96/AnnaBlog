@@ -2,11 +2,12 @@ require 'rails_helper'
 
 RSpec.describe ArticlesController do
 
-  #Factories
+  #-----FACTORIES-----#
   let(:user) { create(:user) }
   let(:article) { create(:article) }
+  let(:publication) { create(:publication) }
 
-  #Methods
+  #-----METHODS-----#
   def get_index
     get :index
   end
@@ -16,7 +17,7 @@ RSpec.describe ArticlesController do
   end
 
   def post_create
-    post :create, params: {user_id: user, article: attributes_for(:article)}
+    post :create, params: {article: attributes_for(:article)}
   end
 
   def get_show
@@ -32,8 +33,7 @@ RSpec.describe ArticlesController do
   end
 
 
-
-  #tests
+  #-----TESTS-----#
   describe "GET index" do
     it "shows all articles" do
       expect(get_index).to render_template(:index)
@@ -66,17 +66,35 @@ RSpec.describe ArticlesController do
           }.to change(Article, :count).by(1)
         end
         it "should redirect to root path" do
-          expect(post_create).to redirect_to root_path
+          expect(post_create).to redirect_to(Article.last)
+        end
+      end
+
+      context "part of publication" do
+        it "should add new article to publication" do
+          @new_publication = create(:publication)
+          @new_user_publication = create(:user_publication, user_id: user.id, publication_id: @new_publication.id)
+          expect{
+            post :create, params: {article: attributes_for(:article, publication_id: @new_publication.id)}
+          }.to change(Article.where(publication_id: @new_publication.id), :count).by(1)
+        end
+      end
+      context "not part of publication" do
+        it "shouldn't add with non-permission member" do
+          @new_publication = create(:publication)
+          expect{
+            post :create, params: {article: attributes_for(:article, publication_id: @new_publication.id)}
+          }.to change(Article.where(publication_id: @new_publication.id), :count).by(0)
         end
       end
 
       context "with invalid attributes" do
         it "should not create a article" do
-          expect(post :create, params: {user_id: user, article: attributes_for(:article, title: nil)}).to render_template(:new)
+          expect(post :create, params: {article: attributes_for(:article, title: nil)}).to render_template(:new)
         end
         it "should not create a new article" do
           expect{
-            post :create, params: {user_id: user, article: attributes_for(:article, title: nil)}
+            post :create, params: {article: attributes_for(:article, title: nil)}
           }.to change(Article, :count).by(0)
         end
       end
@@ -86,6 +104,11 @@ RSpec.describe ArticlesController do
         expect(post_create).to redirect_to new_user_session_path
       end
       it "should not create article" do
+        expect{
+          post_create
+        }.to change(Article, :count).by(0)
+      end
+      it "should not create article under publication" do
         expect{
           post_create
         }.to change(Article, :count).by(0)
@@ -122,6 +145,30 @@ RSpec.describe ArticlesController do
           expect(get_edit).not_to render_template(:edit)
         end
       end
+
+      context "article part of publication" do
+        context "members of publication" do
+          context "if author of article" do
+            it "shows the edit page" do
+              sign_in user
+              @new_publication = create(:publication)
+              @new_user_publication = create(:user_publication, user_id: user.id, publication_id: @new_publication.id)
+              @article = create(:article, publication_id: @new_publication.id, user_id: @new_user_publication.user_id )
+              expect(get :edit, params: {id: @article}).to render_template(:edit)
+            end
+          end
+          context "if not author" do
+            it "should not show edit page" do
+              sign_in user
+              new_user = create(:user)
+              @new_publication = create(:publication)
+              @new_user_publication = create(:user_publication, user_id: new_user.id , publication_id: @new_publication.id)
+              @article = create(:article, publication_id: @new_publication.id, user_id: user.id  )
+              expect(get :edit, params:{id: @article}).to redirect_to root_path
+            end
+          end
+        end
+      end
     end
     context "user signed out" do
       it "redirects to login page" do
@@ -137,9 +184,9 @@ RSpec.describe ArticlesController do
       end
       context "is article author" do
         context "valid attributes" do
-          it "redirects to the root page" do
+          it "redirects to the article page" do
             new_article = create(:article, user_id: user.id)
-            expect(put :update, params: {id: new_article, article: attributes_for(:article, title: "Anna")}).to redirect_to root_path
+            expect(put :update, params: {id: new_article, article: attributes_for(:article, title: "Anna")}).to redirect_to(new_article)
           end
           it "should update article" do
             new_article = create(:article, user_id: user.id)
@@ -164,6 +211,29 @@ RSpec.describe ArticlesController do
     context "user not signed in" do
       it "redirects to login page" do
         expect(put_update).to redirect_to new_user_session_path
+      end
+    end
+    context "article part of publication" do
+      context "members of publication" do
+        context "if author of article" do
+          it "it should update" do
+            sign_in user
+            @new_publication = create(:publication)
+            @new_user_publication = create(:user_publication, user_id: user.id, publication_id: @new_publication.id)
+            @article = create(:article, publication_id: @new_publication.id, user_id: @new_user_publication.user_id )
+            expect(put :update, params: {id: @article, article: attributes_for(:article, title: "Anna")}).to redirect_to(@article)
+          end
+        end
+        context "if not author" do
+          it "it shouldn't update" do
+            new_user = create(:user)
+            sign_in user
+            @new_publication = create(:publication)
+            @new_user_publication = create(:user_publication, user_id: user.id, publication_id: @new_publication.id)
+            @article = create(:article, publication_id: @new_publication.id, user_id: new_user.id )
+            expect(put :update, params: {id: @article, article: attributes_for(:article, title: "Anna")}).not_to render_template(:edit)
+          end
+        end
       end
     end
   end
@@ -193,11 +263,39 @@ RSpec.describe ArticlesController do
           }.to change(Article, :count).by(0)
         end
       end
+      context "article part of publication" do
+        context "members of publication" do
+          context "if author of article" do
+            it "it deletes article" do
+              sign_in user
+              @new_publication = create(:publication)
+              @new_user_publication = create(:user_publication, user_id: user.id, publication_id: @new_publication.id)
+              @article = create(:article, publication_id: @new_publication.id, user_id: user.id )
+              expect{
+                delete :destroy, params: {id: @article}
+              }.to change(Article, :count).by(-1)
+            end
+          end
+          context "if not author" do
+            it "it shouldn't delete" do
+              new_user = create(:user)
+              sign_in user
+              @new_publication = create(:publication)
+              @new_user_publication = create(:user_publication, user_id: user.id, publication_id: @new_publication.id)
+              @article = create(:article, publication_id: @new_publication.id, user_id: new_user.id )
+              expect{
+                delete :destroy, params: {id: @article}
+              }.to change(Article, :count).by(0)
+            end
+          end
+        end
+      end
     end
     context "not signed in" do
       it "redirects to login page" do
         expect(delete :destroy, params: {id: article}).to redirect_to new_user_session_path
       end
     end
+
   end
 end
