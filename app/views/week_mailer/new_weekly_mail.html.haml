@@ -1,0 +1,14 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+  %body
+    %p
+      = "Hi #{@user.full_name} ! Here's an update on the latest articles!"
+    %p
+      Weekly Publications
+      %ol
+      - @articles.each do |article|
+        %li
+          =link_to "#{article.title}",article
+          = "authored by #{article.user.full_name}"
