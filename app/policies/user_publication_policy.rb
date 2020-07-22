@@ -1,7 +1,7 @@
 class UserPublicationPolicy < ApplicationPolicy
 
   def new?
-    @record.publication.users.find(@user.id) != nil
+    @record.publication.users.where(id: @user.id).any?
   end
 
   def create?

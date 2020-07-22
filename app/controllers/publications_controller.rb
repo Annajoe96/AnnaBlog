@@ -28,7 +28,7 @@ class PublicationsController < ApplicationController
     @publication = Publication.new(publication_params)
     authorize @publication
     if @publication.save
-      UserPublication.create(user_id: current_user.id, publication_id: @publication.id)
+      UserPublication.create(email: current_user.email, publication_id: @publication.id)
       redirect_to publication_path(@publication)
     else
       render :new

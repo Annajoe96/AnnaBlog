@@ -2,10 +2,10 @@
   .jumbotron.m-4.mt-2
     %h3 Publication Members
 
-  - @publication.user_publications.each do |record|
+  - @user_publications.each do |record|
     .row.m-3.ml-5
-      -next if record.user == nil
       #{link_to record.user.full_name,record.user}
+      #{link_to 'Delete', publication_user_publication_path(publication_id: @publication.id, id: record.id), method: :delete, data: { confirm: 'Are you sure?' }}
 
 
 

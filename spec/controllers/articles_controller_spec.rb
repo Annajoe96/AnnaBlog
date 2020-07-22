@@ -73,7 +73,7 @@ RSpec.describe ArticlesController do
       context "part of publication" do
         it "should add new article to publication" do
           @new_publication = create(:publication)
-          @new_user_publication = create(:user_publication, user_id: user.id, publication_id: @new_publication.id)
+          @user_publication = create(:user_publication, email: user.email, publication_id: @new_publication.id)
           expect{
             post :create, params: {article: attributes_for(:article, publication_id: @new_publication.id)}
           }.to change(Article.where(publication_id: @new_publication.id), :count).by(1)
@@ -152,7 +152,7 @@ RSpec.describe ArticlesController do
             it "shows the edit page" do
               sign_in user
               @new_publication = create(:publication)
-              @new_user_publication = create(:user_publication, user_id: user.id, publication_id: @new_publication.id)
+              @new_user_publication = create(:user_publication, email: user.email, publication_id: @new_publication.id)
               @article = create(:article, publication_id: @new_publication.id, user_id: @new_user_publication.user_id )
               expect(get :edit, params: {id: @article}).to render_template(:edit)
             end
@@ -162,7 +162,7 @@ RSpec.describe ArticlesController do
               sign_in user
               new_user = create(:user)
               @new_publication = create(:publication)
-              @new_user_publication = create(:user_publication, user_id: new_user.id , publication_id: @new_publication.id)
+              @new_user_publication = create(:user_publication, email: new_user.email , publication_id: @new_publication.id)
               @article = create(:article, publication_id: @new_publication.id, user_id: user.id  )
               expect(get :edit, params:{id: @article}).to redirect_to root_path
             end
@@ -219,7 +219,7 @@ RSpec.describe ArticlesController do
           it "it should update" do
             sign_in user
             @new_publication = create(:publication)
-            @new_user_publication = create(:user_publication, user_id: user.id, publication_id: @new_publication.id)
+            @new_user_publication = create(:user_publication, email: user.email, publication_id: @new_publication.id)
             @article = create(:article, publication_id: @new_publication.id, user_id: @new_user_publication.user_id )
             expect(put :update, params: {id: @article, article: attributes_for(:article, title: "Anna")}).to redirect_to(@article)
           end
@@ -229,7 +229,7 @@ RSpec.describe ArticlesController do
             new_user = create(:user)
             sign_in user
             @new_publication = create(:publication)
-            @new_user_publication = create(:user_publication, user_id: user.id, publication_id: @new_publication.id)
+            @new_user_publication = create(:user_publication, email: user.email, publication_id: @new_publication.id)
             @article = create(:article, publication_id: @new_publication.id, user_id: new_user.id )
             expect(put :update, params: {id: @article, article: attributes_for(:article, title: "Anna")}).not_to render_template(:edit)
           end
@@ -269,7 +269,7 @@ RSpec.describe ArticlesController do
             it "it deletes article" do
               sign_in user
               @new_publication = create(:publication)
-              @new_user_publication = create(:user_publication, user_id: user.id, publication_id: @new_publication.id)
+              @new_user_publication = create(:user_publication, email: user.email, publication_id: @new_publication.id)
               @article = create(:article, publication_id: @new_publication.id, user_id: user.id )
               expect{
                 delete :destroy, params: {id: @article}
@@ -281,7 +281,7 @@ RSpec.describe ArticlesController do
               new_user = create(:user)
               sign_in user
               @new_publication = create(:publication)
-              @new_user_publication = create(:user_publication, user_id: user.id, publication_id: @new_publication.id)
+              @new_user_publication = create(:user_publication, email: user.email, publication_id: @new_publication.id)
               @article = create(:article, publication_id: @new_publication.id, user_id: new_user.id )
               expect{
                 delete :destroy, params: {id: @article}
