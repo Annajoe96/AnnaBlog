@@ -123,6 +123,7 @@ RSpec.describe ArticlesController do
         expect(get_show).to render_template(:show)
       end
     end
+
     context "user signed out" do
       it "shows the article" do
         expect(get_show).to render_template(:show)

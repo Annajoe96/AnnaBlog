@@ -11,7 +11,7 @@
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   %body
     - flash.each do |type, msg|
-      .alert.alert-warning{:role => "alert"}
+      .alert.alert-warning.m-0{:role => "alert"}
         = msg
     %header
       %nav.navbar.navbar-expand-md.navbar-dark.bg-dark
@@ -20,18 +20,18 @@
           %span.navbar-toggler-icon
         #navbarCollapse.collapse.navbar-collapse
           %ul.navbar-nav.mr-auto
-            %li.nav-item.active
+            %li.nav-item
               = link_to "Home", root_path, class: 'nav-link'
-            %li.nav-item.active
+            %li.nav-item
               = link_to "Create a publication", new_publication_path, class: 'nav-link'
-            %li.nav-item.active
+            %li.nav-item
               = link_to "Publications", publications_path, class: 'nav-link'
-            %li.nav-item.active
+            %li.nav-item
               = link_to "Submit an Article", new_article_path, class: 'nav-link'
             - if user_signed_in?
-              %li.nav-item.active
+              %li.nav-item
                 = link_to "Sign out",destroy_user_session_path, :method => :delete , class: 'nav-link'
             - else
-              %li.nav-item.active
+              %li.nav-item
                 = link_to "Sign in", user_session_path, class: 'nav-link'
     = yield
