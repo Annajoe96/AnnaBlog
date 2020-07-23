@@ -15,8 +15,7 @@
         = msg
     %header
       %nav.navbar.navbar-expand-md.navbar-dark.bg-dark
-        %a.navbar-brand
-          = link_to "My Blog", root_path
+        = link_to "My Blog", root_path, class: 'navbar-brand'
         %button.navbar-toggler{"aria-controls" => "navbarCollapse", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarCollapse", "data-toggle" => "collapse", :type => "button"}
           %span.navbar-toggler-icon
         #navbarCollapse.collapse.navbar-collapse

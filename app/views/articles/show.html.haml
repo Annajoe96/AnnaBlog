@@ -16,8 +16,8 @@
           = f.submit "Like", class: "btn btn-block btn-primary"
   .row.p-5
     .col
-      %p.text-justify.font-weight-light
-        = @article.body
+      %p.text-justify
+        = simple_format @article.body
   .row.p-5
     .col
       -if policy(@article).edit?
