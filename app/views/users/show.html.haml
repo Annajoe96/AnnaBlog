@@ -1,7 +1,7 @@
 .container.mt-5
-  .jumbotron.m-4.mt-2
+  .jumbotron.mt-2
     %h2= "#{@user.full_name}'s Articles"
-    %h6= "Published : #{@user.articles.count} articles"
+    %h6= "Published : #{pluralize(@user.articles.count,'article')}"
   .row
     - @articles.each do |i|
       .col-md-4.p-4
@@ -11,6 +11,9 @@
   .row
     .col.mt-3
       = paginate @articles, param_name: "user_page", theme: 'twitter-bootstrap-4'
+  .row
+    .col
+      %h6 Comments
   .row
     - @comments.each do |i|
       .col-md-4.p-4
@@ -23,6 +26,9 @@
     .col.mt-3
       = paginate @comments, param_name: "comment_page", theme: 'twitter-bootstrap-4'
   .row
+    .col
+      %h6 Likes
+  .row
     - @likes.each do |i|
       .col-md-4.p-4
         .card.mb-2
@@ -30,7 +36,7 @@
             %h5.card-title= i.user.full_name
             %p
               Liked #{link_to(i.article.title, i.article)}
-            %h6.card-subtitle.mb-2.text-muted= "#{time_ago_in_words(i.created_at)}ago"
+            %h6.card-subtitle.mb-2.text-muted= "#{time_ago_in_words(i.created_at)} ago"
   .row
     .col.mt-3
       = paginate @likes, param_name: "like_page", theme: 'twitter-bootstrap-4'

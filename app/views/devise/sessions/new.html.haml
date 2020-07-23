@@ -6,17 +6,16 @@
         %h1.h3.mb-3.pt-5.text-center.font-weight-normal Please sign in
         .form-group.mt-6
           .row.mt-5
-            = f.text_field :email, autofocus: true, type:"email" , class: 'form-control', required: true, placeholder: "Enter your email here"
+            .col
+              = f.text_field :email, autofocus: true, type:"email" , class: 'form-control', required: true, placeholder: "Enter your email here"
         .form-group
           .row
-            = f.text_field :password, autofocus: true, type:"password" , class: 'form-control', required: true, placeholder: "Enter your password here"
-
-        - if devise_mapping.rememberable?
-          .field.mt-3
-            = f.check_box :remember_me
-            = f.label :remember_me
-
-        .actions
-          = f.submit "Log in", class: "btn btn-lg btn-primary btn-block mt-3, mb-2"
-
-          = render "devise/shared/links"
+            .col
+              = f.text_field :password, autofocus: true, type:"password" , class: 'form-control', required: true, placeholder: "Enter your password here"
+              - if devise_mapping.rememberable?
+                .field.mt-3
+                  = f.check_box :remember_me
+                  = f.label :remember_me
+                .actions
+                  = f.submit "Log in", class: "btn btn-lg btn-primary btn-block mt-3, mb-2"
+                  = render "devise/shared/links"

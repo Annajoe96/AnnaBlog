@@ -2,7 +2,7 @@
   .jumbotron.m-4.mt-5
     %h1= @article.title
     %h4= link_to "by #{@author.full_name}", @author
-    %h5= "Reading Time :#{@insight.reading_time}"
+    %h5= "Reading Time : #{@insight.reading_time}"
     - if @article.publication != nil
       = "Published in:"
       = link_to @article.publication.title, @article.publication
