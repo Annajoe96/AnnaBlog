@@ -1,4 +1,5 @@
 class ArticleInsightService
+  include ActionView::Helpers::TextHelper
 
   def initialize(body)
     @body = body
@@ -20,7 +21,11 @@ class ArticleInsightService
     count = word_count
     mins = count/200
     secs =  (((count/200.to_f%1).round(2) * 0.60).round(2) * 100).round(0)
-    return "#{mins}minutes #{secs} seconds"
+    if mins > 0
+      return "#{pluralize(mins,'minute')} #{pluralize(secs,'second')}"
+    else
+      return "#{pluralize(secs,'second')}"
+    end
   end
 
   # def num_of_paras
