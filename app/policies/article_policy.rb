@@ -17,9 +17,9 @@ class ArticlePolicy < ApplicationPolicy
   end
 
   def edit?
-    if @record.publication_id
+    if @record.publication_id && @user
       @record.publication.user_publications.where(user_id: @user.id).any? && @record.user_id == @user.id
-    else
+    elsif @user
       @user.id == @record.user_id
     end
   end

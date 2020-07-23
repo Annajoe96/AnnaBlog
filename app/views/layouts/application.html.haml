@@ -11,11 +11,11 @@
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
   %body
     - flash.each do |type, msg|
-      %div
+      .alert.alert-warning{:role => "alert"}
         = msg
     %header
       %nav.navbar.navbar-expand-md.navbar-dark.bg-dark
-        %a.navbar-brand.active
+        %a.navbar-brand
           = link_to "My Blog", root_path
         %button.navbar-toggler{"aria-controls" => "navbarCollapse", "aria-expanded" => "false", "aria-label" => "Toggle navigation", "data-target" => "#navbarCollapse", "data-toggle" => "collapse", :type => "button"}
           %span.navbar-toggler-icon
@@ -27,12 +27,12 @@
               = link_to "Create a publication", new_publication_path, class: 'nav-link'
             %li.nav-item.active
               = link_to "Publications", publications_path, class: 'nav-link'
-            %li.nav-item
+            %li.nav-item.active
               = link_to "Submit an Article", new_article_path, class: 'nav-link'
             - if user_signed_in?
-              %li.nav-item
+              %li.nav-item.active
                 = link_to "Sign out",destroy_user_session_path, :method => :delete , class: 'nav-link'
             - else
-              %li.nav-item
-                = link_to "Sign in", new_user_registration_path, class: 'nav-link'
+              %li.nav-item.active
+                = link_to "Sign in", user_session_path, class: 'nav-link'
     = yield
