@@ -1,31 +1,31 @@
 .container
-  .jumbotron.m-4.mt-5
+  .jumbotron.mt-5
     %h1= @article.title
     %h4= link_to "by #{@author.full_name}", @author
     %h5= "Reading Time : #{@insight.reading_time}"
     - if @article.publication != nil
       = "Published in:"
       = link_to @article.publication.title, @article.publication
-  .row.p-4
+  .row
     .col
       %h6= "Likes: #{@article.likes.count}"
       - if @like.persisted?
-        = link_to "Unlike", article_like_path(@like.article, @like), method: :delete, class:"btn btn-block btn-primary"
+        = link_to "Unlike", article_like_path(@like.article, @like), method: :delete, class:"btn btn-primary"
       - else
         = form_with model: [@article, @like], data: {remote: false} do |f|
           = f.submit "Like", class: "btn btn-primary"
-  .row.p-4
+  .row.pt-3
     .col
       .text-justify
         = simple_format @article.body
-  .row.p-4
+  .row
     .col
       -if policy(@article).edit?
         = link_to "Edit Article", edit_article_path, class:"btn btn-dark"
         = link_to "Delete Article", article_path(@article.id), method: :delete, data: {confirm: 'Are you sure?'}, class:"btn btn-dark"
       %div
       .row.mt-4
-        .col-sm-8
+        .col
           %h5 Comments
           - @article.comments.each do |i|
             - next if i.id == nil
@@ -39,7 +39,7 @@
       - if user_signed_in?
         = form_with model: [@article, @comment], data: {remote: false} do |f|
           .row
-            .col-sm-8.mt-3
+            .col.mt-3
               .form-group
                 = f.text_area :comment, placeholder: "comment here",required: true, class: "form-control"
               %div

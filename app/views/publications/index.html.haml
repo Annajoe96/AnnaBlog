@@ -1,15 +1,20 @@
 .container
-  .jumbotron.m-4.mt-5
+  .jumbotron.mt-5
     %h1 List of publications
+    =link_to 'Create a new Publication', new_publication_path, class:'btn btn-primary mt-4'
 
-  .col
+  .row
     - @publications.each do |publication|
-      %ul
-      .row.m-3
-        %li
-          #{link_to publication.title, publication}
+      .col-sm-12.col-lg-4.mb-4
+        .card.h-100
+          .card-body
+            %h5.card-title
+              = link_to publication.title, publication
+            %p.card-text #{truncate(publication.description, length: 200 ,omission: '... (continued)')}
+            = link_to "Read more", publication, class: 'btn btn-outline-primary btn-sm'
+          .card-footer
+            %small.text-muted #{time_ago_in_words(publication.created_at)} ago
 
-
-
-    .row.m-3
-      =link_to 'Create a new Publication', new_publication_path, class:'btn btn-outline-primary'
+    .row
+      .col.mt-5
+        = paginate @publications, theme: 'twitter-bootstrap-4'
