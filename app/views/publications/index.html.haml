@@ -4,18 +4,17 @@
     =link_to 'Create a new Publication', new_publication_path, class:'btn btn-primary mt-4'
 
   .row
-    .col
-      .card-columns
-        - @publications.each do |publication|
-          .card
-            .card-body
-              %h5.card-title
-                = link_to publication.title, publication
-              %p.card-text #{truncate(publication.description, length: 200 ,omission: '... (continued)')}
-              = link_to "Read more", publication, class: 'btn btn-outline-primary btn-sm'
-            .card-footer
-              %small.text-muted #{time_ago_in_words(publication.created_at)} ago
+    - @publications.each do |publication|
+      .col-sm-12.col-lg-4.mb-4
+        .card.h-100
+          .card-body
+            %h5.card-title
+              = link_to publication.title, publication
+            %p.card-text #{truncate(publication.description, length: 200 ,omission: '... (continued)')}
+            = link_to "Read more", publication, class: 'btn btn-outline-primary btn-sm'
+          .card-footer
+            %small.text-muted #{time_ago_in_words(publication.created_at)} ago
 
-      .row
-        .col.mt-5
-          = paginate @publications, theme: 'twitter-bootstrap-4'
+    .row
+      .col.mt-5
+        = paginate @publications, theme: 'twitter-bootstrap-4'
