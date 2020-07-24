@@ -6,7 +6,7 @@ class PublicationsController < ApplicationController
 
   # GET /publications
   def index
-    @publications = Publication.all
+    @publications = Publication.all.page(params[:page])
     authorize Publication
   end
 

@@ -17,10 +17,11 @@
         = f.text_field :title, placeholder: "title here...", required: false, class: "form-control"
       .form-group
         = f.label :body
-        = f.text_area :body ,placeholder: "paste your article here..",required: false, class: "form-control"
-      .form-group
-        = f.label :publication_id
-        = f.collection_select :publication_id, current_user.publications, :id, :title, {:include_blank => true}
+        = f.text_area :body ,placeholder: "Type your article here..",required: false, class: "form-control", rows: "10"
+      - if current_user.publications.any?
+        .form-group
+          = f.label :publication_id
+          = f.collection_select :publication_id, current_user.publications, :id, :title, {:include_blank => true}
 
       %div
-        = f.submit class: "btn btn-success"
+        = f.submit class: "btn btn-success mt-2"

@@ -16,4 +16,5 @@
           = f.label :description
           = f.text_area :description ,placeholder: "give description here", required: false, class: "form-control"
         %div
+          = link_to 'Back', publications_path , class: "btn btn-light"
           = f.submit "Create", class: "btn btn-success"
