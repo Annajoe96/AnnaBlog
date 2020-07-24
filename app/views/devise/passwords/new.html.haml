@@ -1,6 +1,6 @@
 .container
   .row
-    .col-4.offset-4
+    .col-12.offset-md-4.col-md-4
       = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
         = render "devise/shared/error_messages", resource: resource
         .h3.text-center.font-weight-normal.mt-4
